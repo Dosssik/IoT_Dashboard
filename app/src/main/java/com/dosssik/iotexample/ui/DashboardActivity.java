@@ -2,6 +2,7 @@ package com.dosssik.iotexample.ui;
 
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,7 +13,6 @@ import android.widget.Toast;
 
 import com.cloudant.sync.replication.Replicator;
 import com.dosssik.iotexample.managers.DatabaseManager;
-import com.dosssik.iotexample.IoTApplication;
 import com.dosssik.iotexample.R;
 import com.dosssik.iotexample.model.RPiResponseModel;
 import com.github.mikephil.charting.charts.LineChart;
@@ -41,24 +41,43 @@ public class DashboardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
-        IoTApplication.getComponent().inject(this);
+//        IoTApplication.getComponent().inject(this);
 
-//        databaseHelper = new DatabaseManager(getApplicationContext());
-        databaseHelper.setListenner(this);
-        initView();
-        setListenners();
+        if (getSupportFragmentManager()
+                .findFragmentByTag(
+                        DateChooseFragment.class.getSimpleName()) == null) {
+            showDataChooseFragment();
+        }
+
+
     }
 
+    private void showDataChooseFragment() {
+
+        Fragment fragment = DateChooseFragment.newInstance();
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(
+                        R.id.activity_dashboard_container,
+                        fragment,
+                        DateChooseFragment.class.getSimpleName()
+                )
+                .commit();
+    }
+
+
+    /*********************** old methods ***********************/
     private void initView() {
-        buttonState = (Button) findViewById(R.id.button_state);
-        buttonGetResult = (Button) findViewById(R.id.button_result);
-        buttonStart = (Button) findViewById(R.id.button_start);
-
-        stateTextView = (TextView) findViewById(R.id.state_text_view);
-        resultTextView = (TextView) findViewById(R.id.resutl_text_view);
-
-        lineChart = (LineChart) findViewById(R.id.chart);
-        lineChart.setPinchZoom(true);
+//        buttonState = (Button) findViewById(R.id.button_state);
+//        buttonGetResult = (Button) findViewById(R.id.button_result);
+//        buttonStart = (Button) findViewById(R.id.button_start);
+//
+//        stateTextView = (TextView) findViewById(R.id.state_text_view);
+//        resultTextView = (TextView) findViewById(R.id.resutl_text_view);
+//
+//        lineChart = (LineChart) findViewById(R.id.chart);
+//        lineChart.setPinchZoom(true);
     }
 
     private void setListenners() {
@@ -81,7 +100,8 @@ public class DashboardActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 List<Entry> chartData = new ArrayList<>();
-                List<RPiResponseModel> result = databaseHelper.getResult();
+                List<RPiResponseModel> result = null;
+//                List<RPiResponseModel> result = databaseHelper.getResult();
 
                 for (int i = 0; i < result.size(); i++) {
                     RPiResponseModel model = result.get(i);
@@ -95,8 +115,8 @@ public class DashboardActivity extends AppCompatActivity {
                 lineDataSet.setColor(Color.BLACK);
                 lineDataSet.setCircleColor(Color.RED);
                 if (Utils.getSDKInt() >= 18) {
-                    Drawable drawable = ContextCompat.getDrawable(DashboardActivity.this, R.drawable.fade_red);
-                    lineDataSet.setFillDrawable(drawable);
+//                    Drawable drawable = ContextCompat.getDrawable(DashboardActivity.this, R.drawable.fade_red);
+//                    lineDataSet.setFillDrawable(drawable);
                 }
 //                lineDataSet.setValueTextColor(android.R.color.holo_blue_light);
 
@@ -127,4 +147,21 @@ public class DashboardActivity extends AppCompatActivity {
                 Toast.LENGTH_LONG).show();
     }
 
+    public void showDescriptionFragment(ArrayList<RPiResponseModel> data) {
+
+        if (data.size() != 0) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .setCustomAnimations(
+                            R.anim.slide_in_from_right,
+                            R.anim.slide_out_to_left,
+                            android.R.anim.slide_in_left,
+                            android.R.anim.slide_out_right)
+                    .replace(R.id.activity_dashboard_container, DescriptionFragment.newInstance(data))
+                    .addToBackStack(DateChooseFragment.class.getName())
+                    .commit();
+        } else {
+            Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_SHORT).show();
+        }
+    }
 }

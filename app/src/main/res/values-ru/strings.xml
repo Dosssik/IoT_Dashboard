@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="choose_date">Выберите дату:</string>
+    <string name="choose_date_confirm_button">Показать данные за этот день</string>
+    <string name="no_data">За этот день нет данных</string>
+    <string name="loading">Загрузка</string>
+    <string name="loading_message">Получаем данные с сервера CloudAnt</string>
+    <string name="download_canceled">Загрузка отменена</string>
+</resources>

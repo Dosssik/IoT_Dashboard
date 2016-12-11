@@ -1,7 +1,11 @@
 package com.dosssik.iotexample.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.cloudant.sync.datastore.DocumentRevision;
 
+import java.io.Serializable;
 import java.util.Map;
 
 import lombok.Getter;
@@ -13,13 +17,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class RPiResponseModel {
-
-
+public class RPiResponseModel implements Serializable {
 
     public enum EventType {
         Home,
-        HW;
+        HW
     }
     public static final String COLUMN_EVENT_TYPE = "eventType";
     public static final String COLUMN_DEVICE_ID = "deviceId";

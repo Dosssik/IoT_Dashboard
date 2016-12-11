@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">IoT_Dashboard</string>
+    <string name="choose_date">Choose date:</string>
+    <string name="choose_date_confirm_button">Show me result</string>
+    <string name="no_data">No data for this day</string>
+    <string name="loading">Loading</string>
+    <string name="loading_message">Getting data from CloudAnt server</string>
+    <string name="download_canceled">Downloading was canceled</string>
 </resources>
