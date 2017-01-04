@@ -1,16 +1,15 @@
 package com.dosssik.iotexample.ui;
 
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
+import android.app.DatePickerDialog;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.annotation.Nullable;
-import android.util.Log;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.DatePicker;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dosssik.iotexample.R;
@@ -19,6 +18,8 @@ import com.dosssik.iotexample.presenters.DateChoosePresenter;
 import com.hannesdorfmann.mosby.mvp.MvpFragment;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -30,13 +31,21 @@ import butterknife.ButterKnife;
 public class DateChooseFragment extends MvpFragment<IDateChooseView, DateChoosePresenter>
         implements IDateChooseView {
 
-    @Bind(R.id.date_choose_fragment_date_picker)
-    DatePicker datePicker;
+
+    @Bind(R.id.date_choose_fragment_choose_date_button)
+    Button chooseDateButton;
 
     @Bind(R.id.date_choose_fragment_confirm_button)
     Button confirmButton;
 
-    private ProgressDialog progressDialog;
+    @Bind(R.id.date_choose_fragment_selected_date)
+    TextView selectedDateTv;
+
+    private static int selectedDay = 0;
+    private static int selectedMonth = 0;
+    private static int selectedYear = 0;
+
+    private DatePickerDialog.OnDateSetListener dateListener;
 
     public static DateChooseFragment newInstance() {
 
@@ -66,21 +75,74 @@ public class DateChooseFragment extends MvpFragment<IDateChooseView, DateChooseP
 
     private void initViews(View rootView) {
         ButterKnife.bind(DateChooseFragment.this, rootView);
-        datePicker.setMaxDate(System.currentTimeMillis());
+
+        initDate();
+        initDateListener();
+        updateSelectedDateTv();
+
+        chooseDateButton.setOnClickListener(click -> {
+            new DatePickerDialog(getActivity(),
+                    dateListener,
+                    selectedYear,
+                    selectedMonth,
+                    selectedDay)
+                    .show();
+        });
+
         confirmButton.setOnClickListener(click -> onConfirmClick());
     }
 
-    private void onConfirmClick() {
-        int dayOfMonth = datePicker.getDayOfMonth();
-        int month = datePicker.getMonth();
-        int year = datePicker.getYear();
-
-        getPresenter().onDateConfirmed(dayOfMonth, month, year);
+    private void updateSelectedDateTv() {
+        String day = String.valueOf(selectedDay);
+        String month = String.valueOf(selectedMonth + 1);
+        selectedDateTv.setText(makeReadableDate(day) + "/" + makeReadableDate(month) + "/" + selectedYear);
     }
 
-    @Override
-    public void showToast(boolean databaseExist) {
-        Toast.makeText(getContext(), "result - " + databaseExist, Toast.LENGTH_SHORT).show();
+    private String makeReadableDate(String date) {
+        if (date.length() == 1) {
+            date = "0" + date;
+        }
+        return date;
+    }
+
+    private void initDate() {
+        if (selectedYear == 0) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.DAY_OF_YEAR, -1);
+            selectedDay = calendar.get(Calendar.DAY_OF_MONTH);
+            selectedMonth = calendar.get(Calendar.MONTH);
+            selectedYear = calendar.get(Calendar.YEAR);
+        }
+    }
+
+    private void initDateListener() {
+        dateListener = (view, year, monthOfYear, dayOfMonth) -> {
+            selectedDay = dayOfMonth;
+            selectedMonth = monthOfYear;
+            selectedYear = year;
+            updateSelectedDateTv();
+        };
+    }
+
+    private void onConfirmClick() {
+
+        if (selectedDateIsValid()) {
+            getPresenter().onDateConfirmed(selectedDay, selectedMonth, selectedYear);
+        } else {
+            showToast(R.string.date_not_valid);
+        }
+    }
+
+    private boolean selectedDateIsValid() {
+        Date today = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(selectedYear, selectedMonth, selectedDay);
+        Date selectedDate = calendar.getTime();
+        return today.after(selectedDate);
+    }
+
+    public void showToast(int textResId) {
+        Toast.makeText(getContext(), textResId, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -90,32 +152,28 @@ public class DateChooseFragment extends MvpFragment<IDateChooseView, DateChooseP
 
     @Override
     public void showProgressDialog() {
-        // TODO: 12/11/16 Обработать поворот экрана
-        progressDialog = new ProgressDialog(getContext());
-        progressDialog.setCancelable(false);
-        progressDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "button", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                // TODO: 12/11/16 Обработать отмену
-                Toast.makeText(getContext(), R.string.download_canceled, Toast.LENGTH_LONG).show();
-                getPresenter().stopReplication();
-            }
-        });
-        progressDialog.setTitle(getString(R.string.loading));
-        progressDialog.setMessage(getString(R.string.loading_message));
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.show();
+
+        ProgressDialogFragment progressDialogFragment = ProgressDialogFragment.newInstance();
+        progressDialogFragment.setTargetFragment(this, 0);
+        progressDialogFragment.show(getFragmentManager(), ProgressDialogFragment.class.getName());
     }
 
     @Override
     public void hideProgressDialog() {
-        if (progressDialog != null) {
-            progressDialog.hide();
+        Fragment dialog = getFragmentManager()
+                .findFragmentByTag(ProgressDialogFragment.class.getName());
+        if (dialog != null) {
+            ((DialogFragment) dialog).dismiss();
         }
     }
 
     @Override
     public void showErrorToast(String errorMessage) {
-        Toast.makeText(getContext(), "Error случился", Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(), "Ошибка загрузки", Toast.LENGTH_LONG).show();
+    }
+
+    public void onDialogCancelClick() {
+        showToast(R.string.download_canceled);
+        getPresenter().stopReplication();
     }
 }

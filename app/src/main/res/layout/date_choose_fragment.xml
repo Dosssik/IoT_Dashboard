@@ -1,47 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:iot="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/content_container"
+    <android.support.v7.widget.CardView
+        android:id="@+id/content_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/common_gap"
+        iot:cardElevation="10dp"
+        iot:cardUseCompatPadding="true">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="@dimen/common_gap"
-            iot:cardElevation="10dp"
-            iot:cardUseCompatPadding="true">
+            android:gravity="center"
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="@string/choose_date_header"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="@dimen/common_gap"
+                android:textColor="@color/colorPrimary" />
 
-                <DatePicker
-                    android:id="@+id/date_choose_fragment_date_picker"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/common_gap"
-                    android:calendarViewShown="true"
-                    android:spinnersShown="false" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/choose_date_label"
+                android:textStyle="bold" />
 
-                <Button
-                    android:id="@+id/date_choose_fragment_confirm_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/selectableItemBackground"
-                    android:paddingLeft="@dimen/common_gap"
-                    android:paddingRight="@dimen/common_gap"
-                    android:text="@string/choose_date_confirm_button"
-                    android:textColor="@color/colorPrimary" />
+            <TextView
+                android:id="@+id/date_choose_fragment_selected_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/common_gap"
+                tools:text="05/09/1989" />
 
-            </LinearLayout>
+            <Button
+                android:id="@+id/date_choose_fragment_choose_date_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/common_gap"
+                android:background="?attr/selectableItemBackground"
+                android:text="@string/button_choose_date"
+                android:textColor="@color/colorPrimary" />
 
-        </android.support.v7.widget.CardView>
+            <Button
+                android:id="@+id/date_choose_fragment_confirm_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:text="@string/choose_date_confirm_button"
+                android:textColor="@color/colorPrimary" />
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
 
 </LinearLayout>

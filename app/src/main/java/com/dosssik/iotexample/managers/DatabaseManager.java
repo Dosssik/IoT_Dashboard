@@ -34,7 +34,8 @@ public class DatabaseManager {
     public static final String DATASTORE_DIR = "data";
     public static final String DATABASE_NAME_PREFIX = "iotp_s0gomy_default_";
     public static final String DATABASE_NAME = "iotp_s0gomy_default_2016-09-27";
-    private static final String LOG_TAG = "IOT_EXAPMLE";
+    private static final String HTTPS = "https";
+    private static final int PORT = 443;
     private final Context context;
     private final Handler mainThreadHandler;
 
@@ -58,11 +59,10 @@ public class DatabaseManager {
         datastoreManager = DatastoreManager.getInstance(path);
     }
 
-    public ArrayList<RPiResponseModel> queryForSelectedDay(String selectedDate) {
+    public void queryForSelectedDay(String selectedDate) {
 
         initDatastore(selectedDate);
-
-        return fetchResults();
+        fetchResults();
     }
 
     private void initDatastore(String selectedDate) {
@@ -70,20 +70,20 @@ public class DatabaseManager {
         try {
             datastore = datastoreManager.openDatastore(databaseName);
         } catch (DatastoreNotCreatedException e) {
-            Log.e(LOG_TAG, "Unable to open Datastore");
             e.printStackTrace();
         }
     }
 
-    private ArrayList<RPiResponseModel> fetchResults() {
+    private void fetchResults() {
         int quantity = datastore.getDocumentCount();
-        ArrayList<RPiResponseModel> allData = new ArrayList<>();
-        List<DocumentRevision> result = datastore.getAllDocuments(0, quantity, true);
-        for (DocumentRevision rev : result) {
+        ArrayList<RPiResponseModel> result = new ArrayList<>();
+        List<DocumentRevision> revisions = datastore.getAllDocuments(0, quantity, true);
+        for (DocumentRevision rev : revisions) {
             RPiResponseModel rpiResponce = RPiResponseModel.fromRevision(rev);
-            allData.add(rpiResponce);
+            result.add(rpiResponce);
         }
-        return allData;
+
+        dateChoosePresenter.onQueryDone(result);
     }
 
     private void reloadReplication() {
@@ -102,11 +102,11 @@ public class DatabaseManager {
     }
 
     private URI createServerURI(String selectedDate) throws URISyntaxException {
-        return new URI("https", "ac6c8f90-1477-484d-814b-1746ac8bfaab-bluemix"
+        return new URI(HTTPS, "ac6c8f90-1477-484d-814b-1746ac8bfaab-bluemix"
                 + ":"
                 + "bc3d8eab31c1a6c60e22795d5e291caacf4a31f4d2f4da98809c213911e16351",
                 "ac6c8f90-1477-484d-814b-1746ac8bfaab-bluemix.cloudant.com",
-                443, "/" + DATABASE_NAME_PREFIX + selectedDate, null, null);
+                PORT, "/" + DATABASE_NAME_PREFIX + selectedDate, null, null);
     }
 
     public void stopReplication() {
@@ -126,7 +126,6 @@ public class DatabaseManager {
 
     @Subscribe
     public void error(ReplicationErrored re) {
-        Log.e(LOG_TAG, "Replication error:", re.errorInfo.getException());
         mainThreadHandler.post(() -> {
             if (dateChoosePresenter != null) {
                 dateChoosePresenter.showError(re.toString());

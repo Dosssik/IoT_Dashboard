@@ -1,19 +1,17 @@
 package com.dosssik.iotexample.ui;
 
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cloudant.sync.replication.Replicator;
-import com.dosssik.iotexample.managers.DatabaseManager;
 import com.dosssik.iotexample.R;
+import com.dosssik.iotexample.managers.DatabaseManager;
 import com.dosssik.iotexample.model.RPiResponseModel;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
@@ -149,7 +147,9 @@ public class DashboardActivity extends AppCompatActivity {
 
     public void showDescriptionFragment(ArrayList<RPiResponseModel> data) {
 
-        if (data.size() != 0) {
+        if (data.size() != 0
+                && getSupportFragmentManager().findFragmentByTag(DescriptionFragment.class.getName()) == null) {
+
             getSupportFragmentManager()
                     .beginTransaction()
                     .setCustomAnimations(

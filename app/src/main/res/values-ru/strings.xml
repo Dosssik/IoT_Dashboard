@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="choose_date">Выберите дату:</string>
-    <string name="choose_date_confirm_button">Показать данные за этот день</string>
+    <string name="choose_date_confirm_button">Показать данные</string>
     <string name="no_data">За этот день нет данных</string>
     <string name="loading">Загрузка</string>
     <string name="loading_message">Получаем данные с сервера CloudAnt</string>
     <string name="download_canceled">Загрузка отменена</string>
+    <string name="choose_date_label">Отчет за</string>
+    <string name="button_choose_date">Выбрать другую дату</string>
+    <string name="date_not_valid">Этот день еще не наступил!</string>
+    <string name="choose_date_header"><u>Выберите дату отчета</u></string>
+    <string name="cancel_button_text">Отмена</string>
 </resources>

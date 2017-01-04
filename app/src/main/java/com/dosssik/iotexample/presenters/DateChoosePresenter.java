@@ -25,7 +25,7 @@ public class DateChoosePresenter extends MvpBasePresenter<IDateChooseView> {
     @Inject
     Context context;
 
-    private String selectedDate;
+    private static String selectedDate;
 
     public DateChoosePresenter() {
         IoTApplication.getComponent().inject(this);
@@ -34,22 +34,15 @@ public class DateChoosePresenter extends MvpBasePresenter<IDateChooseView> {
 
     public void onDateConfirmed(int day, int month, int year) {
         boolean databaseExist = checkIsDatabaseExist(day, month, year);
-//        getView().showToast(databaseExist);
         if (getView() == null) {
             return;
         }
         if (databaseExist) {
-            ArrayList<RPiResponseModel> data = databaseManager.queryForSelectedDay(selectedDate);
-            getView().showDescriptionFragment(data);
+            databaseManager.queryForSelectedDay(selectedDate);
         } else {
-            // TODO: 12/11/16 Вывести диалог с прогрессБаром и запустить хелпер скачивать данные
             getView().showProgressDialog();
             databaseManager.pullSelectedDay(selectedDate, this);
         }
-    }
-
-    private void prepareData() {
-
     }
 
     private boolean checkIsDatabaseExist(int day, int month, int year) {
@@ -78,8 +71,8 @@ public class DateChoosePresenter extends MvpBasePresenter<IDateChooseView> {
 
     public void onReplicationComplete() {
         getView().hideProgressDialog();
-        ArrayList<RPiResponseModel> data = databaseManager.queryForSelectedDay(selectedDate);
-        getView().showDescriptionFragment(data);
+        databaseManager.queryForSelectedDay(selectedDate);
+
     }
 
     public void stopReplication() {
@@ -87,6 +80,15 @@ public class DateChoosePresenter extends MvpBasePresenter<IDateChooseView> {
     }
 
     public void showError(String errorMessage) {
-        getView().showErrorToast(errorMessage);
+        if (getView() != null) {
+            getView().showErrorToast(errorMessage);
+            getView().hideProgressDialog();
+        }
+    }
+
+    public void onQueryDone(ArrayList<RPiResponseModel> allData) {
+        if (getView() != null) {
+            getView().showDescriptionFragment(allData);
+        }
     }
 }

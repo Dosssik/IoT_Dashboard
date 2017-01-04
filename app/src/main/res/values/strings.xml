@@ -6,4 +6,9 @@
     <string name="loading">Loading</string>
     <string name="loading_message">Getting data from CloudAnt server</string>
     <string name="download_canceled">Downloading was canceled</string>
+    <string name="choose_date_label">Report for</string>
+    <string name="button_choose_date">Choose another date</string>
+    <string name="date_not_valid">That day not come yet!</string>
+    <string name="choose_date_header"><u>Select the report date</u></string>
+    <string name="cancel_button_text">Cancel</string>
 </resources>
