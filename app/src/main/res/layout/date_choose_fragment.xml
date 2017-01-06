@@ -25,12 +25,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:text="@string/choose_date_header"
-                android:textSize="26sp"
-                android:textStyle="bold"
                 android:layout_marginBottom="@dimen/common_gap"
-                android:textColor="@color/colorPrimary" />
+                android:text="@string/choose_date_header"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="26sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -51,6 +51,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/common_gap"
                 android:background="?attr/selectableItemBackground"
+                android:paddingEnd="@dimen/common_gap"
+                android:paddingLeft="@dimen/common_gap"
+                android:paddingRight="@dimen/common_gap"
+                android:paddingStart="@dimen/common_gap"
                 android:text="@string/button_choose_date"
                 android:textColor="@color/colorPrimary" />
 
@@ -59,6 +63,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
+                android:paddingEnd="@dimen/common_gap"
+                android:paddingLeft="@dimen/common_gap"
+                android:paddingRight="@dimen/common_gap"
+                android:paddingStart="@dimen/common_gap"
                 android:text="@string/choose_date_confirm_button"
                 android:textColor="@color/colorPrimary" />
 

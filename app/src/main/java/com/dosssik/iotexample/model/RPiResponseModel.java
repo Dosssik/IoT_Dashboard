@@ -31,8 +31,8 @@ public class RPiResponseModel implements Serializable {
     public static final String COLUMN_HUMIDITY = "Humidity";
     public static final String COLUMN_PRESSURE = "Pressure";
     public static final String COLUMN_TEMPERATURE = "Temperature";
-    public static final String COLUMN_CPU_USAGE = "CPU_USAGE";
-    public static final String COLUMN_CPU_TEMP = "CPU_TEMP";
+    public static final String COLUMN_CPU_USAGE = "CPU USED %";
+    public static final String COLUMN_CPU_TEMP = "CPU TEMP";
     public static final String COLUMN_HOME = "HOME";
 
     private EventType eventType;

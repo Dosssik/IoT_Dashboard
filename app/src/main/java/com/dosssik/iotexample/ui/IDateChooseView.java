@@ -16,5 +16,7 @@ public interface IDateChooseView extends MvpView {
 
     void hideProgressDialog();
 
-    void showErrorToast(String errorMessage);
+    void showToast(int textResId);
+
+    void showToast(String text);
 }

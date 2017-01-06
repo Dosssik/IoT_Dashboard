@@ -22,6 +22,7 @@ public class ProgressDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         ProgressDialog progressDialog = new ProgressDialog(getActivity());
         progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setButton(
                 DialogInterface.BUTTON_NEGATIVE,
                 getString(R.string.cancel_button_text), (dialogInterface, i) -> {

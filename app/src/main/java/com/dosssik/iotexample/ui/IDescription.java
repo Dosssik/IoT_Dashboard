@@ -1,5 +1,6 @@
 package com.dosssik.iotexample.ui;
 
+import com.github.mikephil.charting.data.LineData;
 import com.hannesdorfmann.mosby.mvp.MvpView;
 
 /**
@@ -7,4 +8,7 @@ import com.hannesdorfmann.mosby.mvp.MvpView;
  */
 
 public interface IDescription extends MvpView {
+    void setChartData(LineData selectedLineData);
+
+    void setEmptyState();
 }

@@ -32,9 +32,9 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.0.1'
-    testCompile 'junit:junit:4.12'
 
+    compile 'com.android.support:appcompat-v7:25.1.0'
+    testCompile 'junit:junit:4.12'
 
 
     /** CloudAnt **/
@@ -47,15 +47,17 @@ dependencies {
     /** Graph **/
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.1'
 
-    /** Dagger **/
+    /** DI **/
     apt 'com.google.dagger:dagger-compiler:2.7'
     compile 'com.google.dagger:dagger:2.7'
     provided 'javax.annotation:jsr250-api:1.0'
+    compile 'com.jakewharton:butterknife:7.0.1'
 
     /** Mosby **/
     compile 'com.hannesdorfmann.mosby:mvp:2.0.1'
     compile 'com.hannesdorfmann.mosby:viewstate:2.0.1'
-    compile 'com.android.support:cardview-v7:25.0.1'
+    compile 'com.android.support:cardview-v7:25.1.0'
 
-    compile 'com.jakewharton:butterknife:7.0.1'
+    /** Design **/
+    compile 'com.android.support:design:25.1.0'
 }

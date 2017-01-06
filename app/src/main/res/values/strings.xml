@@ -11,4 +11,11 @@
     <string name="date_not_valid">That day not come yet!</string>
     <string name="choose_date_header"><u>Select the report date</u></string>
     <string name="cancel_button_text">Cancel</string>
+    <string name="cpu_temp">CPU temperature</string>
+    <string name="cpu_usage">CPU usage</string>
+    <string name="humidity">Humidity</string>
+    <string name="pressure">Pressure</string>
+    <string name="temperature">Temperature</string>
+    <string name="placeholder_text">No data</string>
+    <string name="no_connection">No internet. Check your connection</string>
 </resources>

@@ -141,8 +141,14 @@ public class DateChooseFragment extends MvpFragment<IDateChooseView, DateChooseP
         return today.after(selectedDate);
     }
 
+    @Override
     public void showToast(int textResId) {
         Toast.makeText(getContext(), textResId, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showToast(String text) {
+        Toast.makeText(getContext(), text, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -165,11 +171,6 @@ public class DateChooseFragment extends MvpFragment<IDateChooseView, DateChooseP
         if (dialog != null) {
             ((DialogFragment) dialog).dismiss();
         }
-    }
-
-    @Override
-    public void showErrorToast(String errorMessage) {
-        Toast.makeText(getContext(), "Ошибка загрузки", Toast.LENGTH_LONG).show();
     }
 
     public void onDialogCancelClick() {

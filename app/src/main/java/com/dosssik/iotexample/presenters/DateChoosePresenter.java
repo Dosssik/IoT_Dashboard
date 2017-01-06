@@ -1,12 +1,13 @@
 package com.dosssik.iotexample.presenters;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import com.dosssik.iotexample.IoTApplication;
+import com.dosssik.iotexample.R;
 import com.dosssik.iotexample.managers.DatabaseManager;
 import com.dosssik.iotexample.model.RPiResponseModel;
 import com.dosssik.iotexample.ui.IDateChooseView;
+import com.dosssik.iotexample.utils.NetworkUtil;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
 import java.io.File;
@@ -37,11 +38,18 @@ public class DateChoosePresenter extends MvpBasePresenter<IDateChooseView> {
         if (getView() == null) {
             return;
         }
+
         if (databaseExist) {
             databaseManager.queryForSelectedDay(selectedDate);
         } else {
-            getView().showProgressDialog();
-            databaseManager.pullSelectedDay(selectedDate, this);
+
+            if (!NetworkUtil.isOnline(context)) {
+                getView().showToast(R.string.no_connection);
+            } else {
+                getView().showProgressDialog();
+                databaseManager.pullSelectedDay(selectedDate, this);
+            }
+
         }
     }
 
@@ -70,8 +78,10 @@ public class DateChoosePresenter extends MvpBasePresenter<IDateChooseView> {
     }
 
     public void onReplicationComplete() {
-        getView().hideProgressDialog();
-        databaseManager.queryForSelectedDay(selectedDate);
+        if (getView() != null) {
+            getView().hideProgressDialog();
+            databaseManager.queryForSelectedDay(selectedDate);
+        }
 
     }
 
@@ -80,10 +90,14 @@ public class DateChoosePresenter extends MvpBasePresenter<IDateChooseView> {
     }
 
     public void showError(String errorMessage) {
-        if (getView() != null) {
-            getView().showErrorToast(errorMessage);
-            getView().hideProgressDialog();
+        if (getView() == null) {
+            return;
         }
+        if (errorMessage.contains("Database not found")) {
+            errorMessage = "Database not found";
+        }
+        getView().showToast(errorMessage);
+        getView().hideProgressDialog();
     }
 
     public void onQueryDone(ArrayList<RPiResponseModel> allData) {

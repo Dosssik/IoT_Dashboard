@@ -1,12 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <HorizontalScrollView
+        android:layout_gravity="center"
+        android:scrollbars="none"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/description_fragment_tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </android.support.design.widget.TabLayout>
+
+    </HorizontalScrollView>
+
 
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/description_fragment_chart"
+        android:layout_margin="@dimen/common_gap"
         android:layout_width="match_parent"
-        android:layout_height="400dp" />
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/description_fragment_placeholder"
+        android:text="@string/placeholder_text"
+        android:textSize="60sp"
+        android:gravity="center"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </LinearLayout>

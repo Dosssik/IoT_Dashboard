@@ -33,7 +33,6 @@ public class DatabaseManager {
 
     public static final String DATASTORE_DIR = "data";
     public static final String DATABASE_NAME_PREFIX = "iotp_s0gomy_default_";
-    public static final String DATABASE_NAME = "iotp_s0gomy_default_2016-09-27";
     private static final String HTTPS = "https";
     private static final int PORT = 443;
     private final Context context;
@@ -128,7 +127,7 @@ public class DatabaseManager {
     public void error(ReplicationErrored re) {
         mainThreadHandler.post(() -> {
             if (dateChoosePresenter != null) {
-                dateChoosePresenter.showError(re.toString());
+                dateChoosePresenter.showError(re.errorInfo.getException().getMessage());
             }
         });
     }

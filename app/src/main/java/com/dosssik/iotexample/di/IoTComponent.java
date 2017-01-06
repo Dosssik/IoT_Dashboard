@@ -1,7 +1,6 @@
 package com.dosssik.iotexample.di;
 
 import com.dosssik.iotexample.presenters.DateChoosePresenter;
-import com.dosssik.iotexample.ui.DashboardActivity;
 import com.dosssik.iotexample.IoTApplication;
 
 import javax.inject.Singleton;
@@ -18,8 +17,6 @@ public interface IoTComponent {
     void inject(IoTApplication ioTApplication);
 
     void inject(DateChoosePresenter dateChoosePresenter);
-
-    void inject(DashboardActivity activity);
 
     final class Initiazer {
         public static IoTComponent init(IoTApplication application) {

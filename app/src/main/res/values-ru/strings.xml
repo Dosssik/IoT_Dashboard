@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">Интернет вещей. Демо</string>
     <string name="choose_date">Выберите дату:</string>
     <string name="choose_date_confirm_button">Показать данные</string>
     <string name="no_data">За этот день нет данных</string>
@@ -11,4 +12,11 @@
     <string name="date_not_valid">Этот день еще не наступил!</string>
     <string name="choose_date_header"><u>Выберите дату отчета</u></string>
     <string name="cancel_button_text">Отмена</string>
+    <string name="cpu_temp">Температура CPU</string>
+    <string name="cpu_usage">Заруженность CPU</string>
+    <string name="humidity">Влажность</string>
+    <string name="pressure">Давление</string>
+    <string name="temperature">Температура воздуха</string>
+    <string name="placeholder_text">Нет данных</string>
+    <string name="no_connection">Нет интернета, проверьте подключение к сети</string>
 </resources>
